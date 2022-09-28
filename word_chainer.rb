@@ -19,27 +19,32 @@ class WordChainer
     end
 
     def run(source,target)
-        @all_seen_words = [source]
+        all_seen_words = [source]
         @current_words = [source]
         while @current_words.length > 0
-            new_current_words = []
-            @current_words.each do |current_word|
-                adj_words = adjacent_words(current_word)
-                adj_words.each do |word|
-                    if !@all_seen_words.include?(word)
-                        new_current_words << word
-                        @all_seen_words << word
-                    end
-                end
-            end
+            new_current_words, all_seen_words = explore_current_words(@current_words, all_seen_words)
             p new_current_words
             @current_words = new_current_words
         end
 
-        @all_seen_words.include?(target)
+        all_seen_words.include?(target)
+    end
+
+    def explore_current_words(current_words, all_seen_words)
+        new_current_words = []
+        current_words.each do |current_word|
+            adj_words = adjacent_words(current_word)
+            adj_words.each do |word|
+                if !all_seen_words.include?(word)
+                    new_current_words << word
+                    all_seen_words << word
+                end
+            end
+        end
+        [new_current_words, all_seen_words]
     end
 
 end
 
-dict = WordChainer.new(['cat','can','cats','bat','man']) #add 'cat' for harder case
+dict = WordChainer.new(['cat','can','cats','bat','man', 'men']) #add 'cat' for harder case
 p dict.run('cat', 'men')
