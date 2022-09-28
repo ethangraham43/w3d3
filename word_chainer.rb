@@ -19,7 +19,7 @@ class WordChainer
     end
 
     def run(source,target)
-        all_seen_words = [source]
+        all_seen_words = { source => nil }
         @current_words = [source]
         while @current_words.length > 0
             new_current_words, all_seen_words = explore_current_words(@current_words, all_seen_words)
@@ -27,7 +27,7 @@ class WordChainer
             @current_words = new_current_words
         end
 
-        all_seen_words.include?(target)
+        all_seen_words.has_key?(target)
     end
 
     def explore_current_words(current_words, all_seen_words)
@@ -37,11 +37,17 @@ class WordChainer
             adj_words.each do |word|
                 if !all_seen_words.include?(word)
                     new_current_words << word
-                    all_seen_words << word
+                    all_seen_words[word] = current_word
                 end
             end
         end
+        p all_seen_words
         [new_current_words, all_seen_words]
+    end
+
+    def build_path(target,all_seen_words)
+        path = []
+        
     end
 
 end
