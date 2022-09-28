@@ -180,4 +180,55 @@ def permutations(array)
     new_array
 end
 
-p permutations([1,2,3])
+# p permutations([1,2,3])
+
+def greedy_make_change(total, coins)
+    return [] if total == 0
+    coins = coins.sort.reverse
+
+    if coins[0] <= total
+        array = [coins[0]] + greedy_make_change(total-coins[0], coins)
+    else
+        greedy_make_change(total, coins[1..-1])
+    end
+end
+
+
+# p better_make_change(24, [10, 7, 1])
+# p greedy_make_change(42, [25, 10, 5, 1])
+
+def int_better_make_change(total, coins)
+    return [] if total == 0
+    coins = coins.sort.reverse
+
+    while coins[0] > total
+        coins = coins[1..-1]
+
+    end
+
+    possibilities = []
+    coins.each do |coin|
+        # debugger
+        subs = int_better_make_change(total - coin, coins)
+        subs.each do |sub|
+            # debugger
+            sub << coin
+            possibilities << sub
+        end
+        possibilities << [coin] if coin == total
+    end
+    possibilities 
+end
+
+def better_make_change(number, coins)
+    array = int_better_make_change(number, coins)
+    min = array[0]
+    array.each do |el|
+        min = el if el.length < min.length
+    end
+    min
+end
+
+p better_make_change(24, [10, 7, 1])
+p better_make_change(42, [25, 10, 5, 1])
+
