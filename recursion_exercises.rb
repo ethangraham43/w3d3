@@ -1,3 +1,5 @@
+require "byebug"
+
 def range(start,last)
     return [] if start >= last
     #new_array = (start...last).map { |n| n } #iterative
@@ -160,4 +162,22 @@ end
 # # => [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
 
 
+def permutations(array)
+    return array if array.length <= 1
+    new_array = []
+    array.each_with_index do |element, index|
+        #debugger
+        smaller_array = array[0...index] + array[(index + 1)..-1]
+        perms = permutations(smaller_array)
+        perms.each do |perm|
+            #debugger
+            perm = [perm]
+            perm << element
+            #p perm
+            new_array << perm.flatten
+        end
+    end
+    new_array
+end
 
+p permutations([1,2,3])
