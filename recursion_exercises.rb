@@ -119,5 +119,45 @@ def merge_sort(array)
 end
 
 def merge(left,right)
-    
+    new_arr = []
+    while left.length > 0 && right.length > 0
+        if left[0] > right[0]
+            new_arr << right[0]
+            right = right[1..-1]
+        else
+            new_arr << left[0]
+            left = left[1..-1]
+        end
+    end
+    new_arr + left + right
 end
+
+arr1 = [1,5,7,2,4,10]
+arr2 = []
+arr3 = [5,4,3,1,2]
+
+# p merge_sort(arr1)
+# p merge_sort(arr2)
+# p merge_sort(arr3)
+
+# p merge(arr1, arr3)
+
+def subsets(arr)
+    return [[]] if arr.length == 0
+    subs = subsets(arr[1..-1])
+    new_subs = []
+
+    subs.each do |el|
+        new_subs << el + [arr[0]]
+    end
+    subs + new_subs
+end
+
+# p subsets([]) # => [[]]
+# p subsets([1]) # => [[], [1]]
+# p subsets([1, 2]) # => [[], [1], [2], [1, 2]]
+# p subsets([1, 2, 3])
+# # => [[], [1], [2], [1, 2], [3], [1, 3], [2, 3], [1, 2, 3]]
+
+
+
