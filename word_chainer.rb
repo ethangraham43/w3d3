@@ -2,6 +2,7 @@ class WordChainer
 
     def initialize(dictionary)
         @dictionary = dictionary
+        @all_seen_words = { }
     end
 
     def adjacent_words(word)
@@ -19,35 +20,42 @@ class WordChainer
     end
 
     def run(source,target)
-        all_seen_words = { source => nil }
+        @all_seen_words[source] = nil 
         @current_words = [source]
         while @current_words.length > 0
-            new_current_words, all_seen_words = explore_current_words(@current_words, all_seen_words)
+            new_current_words = explore_current_words(@current_words)
             p new_current_words
             @current_words = new_current_words
+            break if @current_words.include?(target)
         end
 
-        all_seen_words.has_key?(target)
+        return nil if !@all_seen_words.has_key?(target)
+        path = build_path(target)
+        path.reverse
     end
 
-    def explore_current_words(current_words, all_seen_words)
+    def explore_current_words(current_words)
         new_current_words = []
         current_words.each do |current_word|
             adj_words = adjacent_words(current_word)
             adj_words.each do |word|
-                if !all_seen_words.include?(word)
+                if !@all_seen_words.include?(word)
                     new_current_words << word
-                    all_seen_words[word] = current_word
+                    @all_seen_words[word] = current_word
                 end
             end
         end
-        p all_seen_words
-        [new_current_words, all_seen_words]
+        p @all_seen_words
+        new_current_words
     end
 
-    def build_path(target,all_seen_words)
+    def build_path(target)
         path = []
-        
+        while target != nil
+            path << target
+            target = @all_seen_words[target]
+        end
+        path
     end
 
 end
