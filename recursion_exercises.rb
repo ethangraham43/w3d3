@@ -30,6 +30,53 @@ def exp2(base, num)
     end
 end
 
-p exp2(2,3)
-p exp2(5,0)
-p exp2(3,7)
+# p exp2(2,3)
+# p exp2(5,0)
+# p exp2(3,7)
+
+def deep_dup(arg)
+    return arg if !arg.is_a?(Array)
+    new_arr = []
+    arg.each do |el|
+        new_arr << deep_dup(el)
+    end
+    return new_arr
+end
+
+# p deep_dup([1, [2], [3, [4]]])
+
+# arr1 = [1, [2], [3, [4]]]
+# arr2 = deep_dup(arr1)
+# p arr1.object_id
+# p arr2.object_id
+# p arr1[2].object_id
+# p arr2[2].object_id
+
+def rec_fib(n)
+    return [1] if n == 1
+    return [1, 1] if n == 2
+    previous = rec_fib(n-1)
+
+    previous << previous[-1] + previous[-2]
+end
+
+# p rec_fib(1)
+# p rec_fib(3)
+# p rec_fib(7)
+
+def iter_fib(n)
+    arr = []
+    (1..n).each do |i|
+        if i == 1 || i == 2
+            arr << 1
+        else
+            arr << arr[-1] + arr[-2]
+        end
+    end
+    arr
+end
+
+
+p iter_fib(1)
+p iter_fib(3)
+p iter_fib(7)
