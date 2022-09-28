@@ -77,6 +77,47 @@ def iter_fib(n)
 end
 
 
-p iter_fib(1)
-p iter_fib(3)
-p iter_fib(7)
+#p iter_fib(1)
+#p iter_fib(3)
+#p iter_fib(7)
+
+
+
+def bsearch(array, target)
+    return nil if array.length == 0
+    if array.length == 1
+        return nil if array[0] != target
+        return 0
+    end
+    middle_index = array.length / 2
+    mid_ele = array[middle_index]
+    if target < mid_ele
+        bsearch(array[0...middle_index], target)
+    elsif target == mid_ele
+        middle_index
+    else
+        return nil if bsearch(array[middle_index+1..-1], target) == nil
+        bsearch(array[middle_index+1..-1], target) + middle_index + 1
+    end
+end
+
+#p bsearch([1, 2, 3], 1) # => 0
+#p bsearch([2, 3, 4, 5], 3) # => 1
+#p bsearch([2, 4, 6, 8, 10], 6) # => 2
+#p bsearch([1, 3, 4, 5, 9], 5) # => 3
+#p bsearch([1, 2, 3, 4, 5, 6], 6) # => 5
+#p bsearch([1, 2, 3, 4, 5, 6], 0) # => nil
+#p bsearch([1, 2, 3, 4, 5, 7], 6) # => nil
+
+
+def merge_sort(array)
+    return array if array.length < 2
+    mid_index = array.length / 2
+    left = merge_sort(array[0...mid_index])
+    right = merge_sort(array[mid_index..-1])
+    merge(left,right)
+end
+
+def merge(left,right)
+    
+end
